@@ -1,5 +1,5 @@
 import express from "express";
-import service from "../services/loginServices.js";
+import db from "../services/loginServices.js";
 import { generatePassword } from "../helpers/userFeatures.js"
 
 const router = express.Router();
@@ -10,7 +10,7 @@ router.post('/', async (req,res)=>{
     try{
         const users = await db.login(email,password);
 
-        if(users.length > 0){
+        if(users.length > 0 ){
             res.status(200).send({message:'Login efetuado com sucesso'});
         }else{
             res.status(401).send({message:'Login incorreto'});

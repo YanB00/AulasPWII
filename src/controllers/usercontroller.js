@@ -44,15 +44,15 @@ route.get("/", async (request, response)=>{
     if(users.length < 1){
         return response.status(204).end();
     }
-    return response.status(200).send({"message":"users"})
+    return response.status(200).send({"message":users})
 
 });
 
 route.get("/:tipo", async (request, response)=>{
-    const tipo = await service.listUser();
+    const {tipo} = request.params;
     const users = await service.listUser(tipo);
 
-    return response.status(200).send({"message":"users"})
+    return response.status(200).send({"message":users})
 
 });
 
