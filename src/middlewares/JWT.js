@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 
 function verifyJWT(req,res,next){
-    const secret = 'aSenh@queVoceQuiser!';
+    const secret = 'ChaveCRIPTOGR@AFIA';
 
     const authHeader = req.headers.authorization;
     if(!authHeader) return res.status(401).send({message:'Token não informado'});

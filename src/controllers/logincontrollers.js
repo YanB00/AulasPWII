@@ -1,6 +1,6 @@
 import express from "express";
-import db from "../services/loginServices.js";
-import { generatePassword } from "../helpers/userFeatures.js"
+import { generatePassword, generateToken } from "../helpers/loginActions.js";
+import loginServices from "../services/loginServices.js";
 
 const router = express.Router();
 
@@ -8,10 +8,13 @@ router.post('/', async (req,res)=>{
     const {email, password} = req.body;
 
     try{
-        const users = await db.login(email,password);
+        const login = await loginServices.login(email,password);
 
-        if(users.length > 0 ){
-            res.status(200).send({message:'Login efetuado com sucesso'});
+        const {id_usuario,nome} = login[0];
+
+        if(login.length > 0 ){
+            const token = generateToken(id_usuario,nome);
+            res.status(200).send({message:token});
         }else{
             res.status(401).send({message:'Login incorreto'});
         }
@@ -24,7 +27,7 @@ router.post('/reset', async (req,res)=>{
     const {email} = req.body;
     
     try{
-        const user = await db.checkEmail(email);
+        const user = await loginServices.checkEmail(email);
 
         if(user.length>0){
             const newPassword = generatePassword();
